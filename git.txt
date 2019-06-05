@@ -1,0 +1,75 @@
+git config --global --list//查看版本信息
+git config --global user.name"刘家辉"//设置用户名
+git config --global user.email"liujiahiu@qq.com"//设置用户邮箱
+
+//已经有文件
+git init//创建git仓库
+//新建文件项目
+git init demo//新建项目文件夹
+
+git config --local//只对仓库有效
+git config --global//对登录用户的所有仓库有效
+git config --system//对系统所有用户有效
+
+git add 测试报告.txt//提交
+git commit -m'版本信息'//提交版本信息
+git log//得到版本信息
+git log --pretty=oneline//得到精简的版本信息
+
+
+git status//得到仓库状态
+git diff//得到不同
+git diff readme.txt//得到具体文件的不同
+
+git reset --hard HEAD^//回到上一个版本
+git reset --hard 7196452e//回到具体的版本
+git reflog//得到之前的命令
+
+git checkout -- 测试报告.txt//丢弃工作区的修改
+git reset HEAD 测试报告.txt//将暂存区的修改撤销，重新放回工作区
+
+git rm 测试报告.txt//移除删除文件
+git commit -m'删除'//保存
+
+ssh-keygen -t rsa -C "liujiahiu@qq.com"//创建ssh key
+//需要先在github上创建一个仓库
+git remote add origin https://github.com/Arrogantyunya/ArrogantVN.git//关联远程库
+git push -u origin master//推送分支内容到库
+git clone https://github.com/Arrogantyunya/gitskills//克隆远程库至,远程库的网址
+
+//<>使用时省略
+git branch//查看分支
+git branch <name>//创建分支
+git checkout <name>//切换分支
+git checkout -b <name>//创建+切换分支
+git merge <name>//合并某分支到当前分支
+git branch -d <name>//删除分支
+git log --graph//分支合并图
+
+git stash//保存当前工作
+git stash pop//回到工作现场
+git branch -D <name>//强行删除没有合并过的分支
+
+//关联两个远程库,先删除Github的名字
+git remote rm origin
+//关联Github，注意，远程库的名称叫github，不叫origin了。
+git remote add github git@github.com:michaelliao/learngit.git
+//再关联码云的远程库（注意路径中需要填写正确的用户名）
+//同样注意，远程库的名称叫gitee，不叫origin。
+git remote add gitee git@gitee.com:liaoxuefeng/learngit.git
+//查看远程库信息
+git remote -v
+
+//推送到GitHub，使用命令：
+git push github master
+//推送到码云，使用命令:
+git push gitee master
+
+//这是强制同步云端代码到本地
+//只是下载代码到本地，不进行合并操作
+git fetch --all
+//把HEAD指向最新下载的版本
+git reset --hard github/master
+
+
+
