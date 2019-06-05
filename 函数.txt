@@ -1,0 +1,135 @@
+映射函数
+map（）
+map(value, fromLow, fromHigh, toLow, toHigh);
+map（值，当前范围的下限，上限，目标范围的下限，上限）;
+analogWrite(9,map(analogRead(A0),400,700,0,255));
+示例代码：
+Example Code
+/* Map an analog value to 8 bits (0 to 255) */
+void setup() {}
+
+void loop() {
+  int val = analogRead(0);
+  val = map(val, 0, 1023, 0, 255);
+  analogWrite(9, val);
+}
+
+
+
+调声函数
+tone() 可以让指定引脚产生一个占空比为50%的指定频率的方波。
+
+tone(pin, frequency)
+tone(引脚,频率)
+
+tone(pin, frequency, duration)
+tone(引脚,频率，持续时间)
+如果要在多个管脚上播放不同的音高，需要在一个管脚上调用notone（），然后在下一个管脚上调用tone（）。
+
+noTone()
+noTone(pin)
+noTone(引脚)
+
+
+
+中断函数
+attachInterrupt(interrupt, function, mode);
+attachInterrupt(中断通道, 中断函数, 触发方式);
+attachInterrupt(digitalPinToInterrupt(pinInterrupt),onChange,CHANGE)
+//CHANGE就是你的中断触发方式。在大多数arduino上有以下四种触发方式：
+//LOW               低电平触发
+//CHANGE            电平变化，高电平变低电平、低电平变高电平
+//RISING            上升沿触发
+//FALLING           下降沿触发
+//HIGH              高电平触发(该中断模式仅适用于Arduino due)
+
+中断分离函数
+detachInterrupt(pin)
+如果你不需要使用外部中断了，你可以用中断分离函数detachInterrupt() 来关闭中断功能。
+
+参数
+pin：需要禁用中断的引脚
+
+
+
+时间运行函数
+使用运行时间函数millis()，能获取Arduino通电后（或复位后）到现在的时间
+大概运行50天后，运行时间会溢出，溢出后会从新从0开始计数
+millis()实际读取的是一个名为 timer0_overflow_count 的系统变量，用这两行可以清零：
+
+extern volatile unsigned long timer0_overflow_count;
+timer0_overflow_count = 0;
+
+但是你这样做会破坏掉使用millis的arduino内部函数和库的运行，所以不建议这样做。
+我估计你担心millis在49天后会溢出，其实可以使用一个记住时间差值的变量就可以了，你可以随便清零。
+
+简单的软件复位方法是把reset引脚连到一个数字引脚，然后输出低电位就可以复位了。
+
+millis()
+获取Arduino通电后（或复位后）到现在的时间,单位毫秒ms
+返回值
+返回系统运行时间，单位毫秒
+
+micros()
+获取Arduino通电后（或复位后）到现在的时间，单位微秒us
+返回值
+返回系统运行时间，单位微秒。
+
+
+
+软串口函数
+软串口类库并非Arduino Uno核心类库，因此使用前你需要先声明包含SoftwareSerial.h头文件。 其中定义的成员函数与硬件串口类似，available()、begin()、read()、write()、print()、println()、peek() 等用法相同，这里便不一一列举。 此外软串口后还有如下成员函数：
+SoftwareSerial()
+SoftwareSerial类的构造函数，通过它可指定软串口RX、TX引脚。 语法： SoftwareSerial mySerial= SoftwareSerial(rxPin, txPin) SoftwareSerial mySerial(rxPin, txPin) 参数： mySerial：用户自定义软件串口对象 rxPin：软串口接收引脚 txPin：软串口发送引脚
+
+listen()
+开启软串口监听状态。 Arduino Uno在同一时间仅能监听一个软串口，当你需要监听某一软串口时，需要该对象调用这个函数开启监听功能。 
+语法： mySerial.listen() 参数： 
+mySerial：用户自定义的软件串口对象 
+返回值： 无
+
+isListening()
+监测软串口是否正在监听状态。 
+语法： mySerial.isListening() 
+参数： mySerial：用户自定义的软件串口对象 
+返回值： Boolean型 True：正在监听 False：没有监听
+
+end()
+停止监听软串口。 
+语法： mySerial. end() 参数： 
+mySerial：用户自定义的软件串口对象 
+返回值： Boolean型 True：关闭监听成功 False：关闭监听失败
+
+overflow()
+检测缓冲区是否溢出。 
+语法： mySerial.overflow() 
+参数： mySerial：用户自定义的软件串口对象 
+返回值： Boolean型 True：溢出 False：没有溢出
+
+
+EEPROM函数
+
+写数据
+向EEPROM空间指定地址写入1字节数据
+EEPROM.write(address, data)
+参数
+address为写入存储空间地址
+data为实际写入的数据
+
+读数据
+从指定位置读出的数据
+EEPROM.read(addr)
+参数
+addr为指定地址
+返回值
+从指定地址读出的数据
+
+清除数据
+清空EEPROM空间中的所有数据
+EEPROM.clear()
+
+用于初始化以及清空数组的函数
+memset(void *buffer, int c, int count);
+例：memset(Receive_Data,0x00,sizeof(Receive_Data));
+//将Receive_Data[50]这个数组清空为0x00
+memset(需要清空的数组名字,想要清空成什么值,sizeof(需要清空的数组名字));
