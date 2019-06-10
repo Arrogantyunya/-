@@ -1,0 +1,214 @@
+//定义String类的字符串
+String str = "Hello";
+String str2 = String("World");
+
+//String可以直接加
+Serial.println("str+" "+str2");
+
+//从串口得到字符串
+if(Serial.available)
+{
+	String str = Serial.readString();
+	str += "World"//String可以加上
+	Serial.println(str);
+}
+
+//连接字符串str.concat
+//整型、浮点型、字符类型等数据也可以通过它连接成字符串
+//可以拥有返回值，如果连接成功返回真，失败返回假
+if(Serial.available)
+{
+	String str = Serial.readString();
+	//str += "World"//String可以加上
+	str.concat("World!!");//使用concat进行连接，直接修改str的值
+	Serial.println(str);
+}
+
+if(Serial.available)
+{
+	String str = Serial.readString();
+	//str += "World"//String可以加上
+	if(str.concat("World!!"))//连接成功才输出
+	{
+		Serial.println(str);
+	}
+}
+
+//比较字符串，直接使用比较运算符: > < == !=
+//str.equals用于验证两个字符串是否相等，相同返回真，不同返回假
+//str.equalslgnoreCase使用同上，不同是比较时忽略大小写
+//str.compareTo
+//比较的时候将每个字符转换为ASCII数值，然后逐一比较
+//一旦遇到第一个不同的字符，立刻会返回比较的结果
+String str = "aaa";
+Serial.println(str<"Aaa");//返回结果为1，但是仅能比较相同位，比较不相同的位会出错
+Serial.println(str.equals("Aaa"));//相同返回真，不同返回假，不会忽略大小写
+Serial.println(str.equalslgnoreCase("Aaa"));//相同返回真，不同返回假，会忽略大小写
+Serial.println(str.compareTo("100"));//用str的字符逐个减去括号里的字符，一旦遇到不同，会返回减去的结果（字符比较ASCII）
+
+//判断字符串中是否包含有其他的字符或者字符串
+//indexOf(string)	indexOf(string,n)	string为需要查找的字符串，n为从第几位开始查
+//从左到右匹配字符串，一旦遇到查找的目标，会立刻返回整型的数字
+//这个数字代表了要查的字符串的位置编号，也叫作索引值
+//如果什么都没有找到，返回-1
+
+//lastIndexOf(string)	lastIndexOf(string,n)
+//使用方法同上，但是查找是从右往左
+String str = "oh!my God!woo";
+Serial.println(str.indexOf("!"));//查找第一个！所在的索引值
+Serial.println(str.indexOf("!"，3));//从第三个索引值开始查找！所在的索引值
+
+//查看原字符串中是否是以某些字符串作为开始或结尾
+//boolean endsWith(string)	结尾
+//boolean startssWith(string)	开始
+Serial.println(str.endsWith("."));//判断字符串是否是以句号结尾
+Serial.println(str.startsWith("FE"));//判断字符串是否是以FE开始
+
+//从一组字符串中截取出某一部分
+//string substring(int from)	int from表示从哪里开始截取
+//string substring(int from,int end)	int end表示到哪里结束
+//会返回截取后的字符串
+Serial.println(str.substring(2));//从索引值2开始截取之后的字符串
+Serial.println(str.substring(0,3));//从索引值0开始截取到3的字符串，不包含3的字符
+Serial.println(str.substring(0,str.indexOf("!")));//可以配合indexOf使用
+
+//str.length()为str字符串的长度
+
+//字符串逐个输出
+//charAt(int)	
+//传入一个整型的参数，这个参数为截取字符串的索引值
+//返回值是一个字符，用一个变量表示参数，结合循环，逐个输出所有的字符
+for(int i=0;i<str.length;i++)
+{
+	Serial.println(str.charAt(i));
+}
+
+//setCharAt()用于修改字符串的某一个字符
+//没有返回值，直接修改字符串中的内容
+str.setCharAt(2,'?');//将第2位改成？
+
+//replace()用于修改字符串的某一部分字符
+//没有返回值，直接修改字符串中的内容
+str.replace("oh","haa");//将字符串中所有的oh改成haa
+
+//将字符串转化为数组使用
+//1		getBytes(byte[],size)
+//获取的不是字符串的字节，而是每个字符的ASCII码
+//然后将ASCII码的数值传入到一个数组
+byte shuzu[str.length()];
+str.getBytes(shuzu,3)//只能处理到2个字符 
+for(int i=0;i<2;i++)
+{
+	Serial.println(shuzu[i]);
+}
+//2		toCharArray(char[],size)
+//使用方法同上，区别是数组用char类型声明
+
+//字母大小写的转换
+//toLowerCase()		toUpperCase()
+//没有返回值，直接使用即可，直接修改字符串的本身
+str.toLowerCase();//改成小写
+
+//toInt将一个数字型的字符串转化为真的数字
+//不会直接作用在字符串本身上，以返回值的形式使用
+//返回的不是int类型，而是长整型
+//如果字符串不是以数字开始，toInt默认返回0
+String str = '32768'
+long i = str.toInt();//所以使用long来接收
+//toFloat()
+//返回浮点数，使用方法同上
+
+//把String类的字符串用指针表示
+// c_str()
+// 会返回一个指针指向的字符串，但这个指针是一个指向常量的指针
+//注意：只能是指向常量
+String str = "abc";
+char const *c = str.c_str();
+//或者强制转换为普通指针
+// char *c = (char *) str.c_str();
+while(*c)
+{
+	Serial.println(*c++);
+}
+
+//字符串的删除一
+// void remove (index,count)
+//index为必选参数，表示从哪里开始删除，只填这一个参数，会将字符串从索引值开始一直到结尾的所有字符删除
+//第二个参数count表示删除多少个字符
+//作用到字符串的本身
+str.remove(3,2);
+
+//void trim()，只用于删除字符串起始和结尾处的空格
+str.trim();
+
+//reserve()
+//主要可以事先在内存中开辟用于装载字符串的空间，事先分配好一定的内存
+//如果不足以装载所有的字符串，会自动的扩张，避免系统因为反复重新分配内存导致的效率降低
+//没有返回值，参数是你要开辟的内存的大小，单位是字节
+String str;
+str.reserve(100);//进行字符串的+=运算时，可以提升效率
+str+="Hello";
+str+="World";
+Serial.println(str);
+
+
+String str1 = String(12);//将数字转换为字符串类型
+String str2 = String(12,HEX);//通过第二个参数转换为不同的进制表示
+
+/*
+ *  String类型定义字符串
+ *  
+ */
+String str[10];        //String的数组
+String strDemo="Hi";
+void setup() {
+  // put your setup code here, to run once:
+  str[0] = "Hello World";                       // 使用赋值的方法直接定义String对象 
+  str[1] =  String('a');                        // 将字符转为String对象
+  str[2] =  String("This is a string");         // 将字符串转为String对象
+  str[3] =  String(strDemo + " my lover");      // 将String对象和普通字符串通过+连接
+  str[4] =  String(12);                         // 将普通数字转换为String对象
+  str[5] =  String(12, HEX);                    // 将十进制转为十六进制表示的String对象
+  str[6] =  String(255, BIN);                   // 将十进制转为二进制表示的String对象
+  str[7] =  String(B11111111, DEC);             // 将二进制转为十六进制表示的String对象
+  str[8] =  String(32769, DEC);                 // 长整型用十进制表示转换为String对象
+  str[9] =  String(5.6985, 3);                  // 保留3位浮点数表示String对象
+  Serial.begin(9600);
+  for(int i=0;i<10;i++){
+    Serial.print(String("str")+i+": ");
+    Serial.println(str[i]);
+  }
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
