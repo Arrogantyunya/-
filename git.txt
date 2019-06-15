@@ -69,7 +69,7 @@ git push gitee master
 //只是下载代码到本地，不进行合并操作
 git fetch --all
 //把HEAD指向最新下载的版本
-git reset --head github/master
+git reset --hard github/master
 
 
 
