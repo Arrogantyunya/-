@@ -95,7 +95,7 @@ str.replace("oh","haa");//将字符串中所有的oh改成haa
 //1		getBytes(byte[],size)
 //获取的不是字符串的字节，而是每个字符的ASCII码
 //然后将ASCII码的数值传入到一个数组
-byte shuzu[str.length()];
+byte shuzu[str.length()];或者 unsigned char shuzu[str.length()]
 str.getBytes(shuzu,3)//只能处理到2个字符 
 for(int i=0;i<2;i++)
 {
