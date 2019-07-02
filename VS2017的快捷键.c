@@ -10,3 +10,4 @@ VS2017的一些快捷键.c
 //crtl + -为向后导航
 //crtl + shift + -为向前导航
 //
+//crtl + k + d或者crtl + k + f 为自动排版
