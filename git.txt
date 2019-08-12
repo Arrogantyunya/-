@@ -71,5 +71,14 @@ git fetch --all
 //把HEAD指向最新下载的版本
 git reset --hard github/master
 
+//回退版本后再回到最新的版本
+//命令，找出当前被丢弃的提交
+git fsck --lost-found
+// 显示提交的具体信息
+git show <commit id>
+// 回滚到指定的提交
+git reset --hard <commit id>
+
+
 
 
