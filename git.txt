@@ -79,6 +79,6 @@ git show <commit id>
 // 回滚到指定的提交
 git reset --hard <commit id>
 
-
+git push github +master
 
 
