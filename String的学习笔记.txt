@@ -113,6 +113,8 @@ str.toLowerCase();//改成小写
 //不会直接作用在字符串本身上，以返回值的形式使用
 //返回的不是int类型，而是长整型
 //如果字符串不是以数字开始，toInt默认返回0
+//如果字符串结尾带字母，将不会处理字母。
+//例如0050E2，处理结果为50.
 String str = '32768'
 long i = str.toInt();//所以使用long来接收
 //toFloat()
@@ -170,7 +172,7 @@ void setup() {
   str[4] =  String(12);                         // 将普通数字转换为String对象
   str[5] =  String(12, HEX);                    // 将十进制转为十六进制表示的String对象
   str[6] =  String(255, BIN);                   // 将十进制转为二进制表示的String对象
-  str[7] =  String(B11111111, DEC);             // 将二进制转为十六进制表示的String对象
+  str[7] =  String(B11111111, DEC);             // 将二进制转为十进制表示的String对象
   str[8] =  String(32769, DEC);                 // 长整型用十进制表示转换为String对象
   str[9] =  String(5.6985, 3);                  // 保留3位浮点数表示String对象
   Serial.begin(9600);
