@@ -1,0 +1,165 @@
+区别:
+SPI：高速同步串行口。3～4线接口，收发独立、可同步进行 
+UART：通用异步串行口。按照标准波特率完成双向通讯，速度慢 
+I2C:一种串行传输方式,三线制,网上可找到其通信协议和用法的 
+
+3根线实现数据双向传输 
+串行外围接口 Serial peripheral interface 
+UART:通用异步收发器 
+UART是用于控制计算机与串行设备的芯片。有一点要注意的是，它提供了RS-232C数据终端设备接口，这样计算机就可以和调制解调器或其它使用RS-232C接口的串行设备通信了。作为接口的一部分，UART还提供以下功能： 
+将由计算机内部传送过来的并行数据转换为输出的串行数据流。将计算机外部来的串行数据转换为字节，供计算机内部使用并行数据的器件使用。在输出的串行数据流中加入奇偶校验位，并对从外部接收的数据流进行奇偶校验。在输出数据流中加入启停标记，并从接收数据流中删除启停标记。处理由键盘或鼠标发出的中断信号（键盘和鼠票也是串行设备）。可以处理计算机与外部串行设备的同步管理问题。有一些比较高档的UART还提供输入输出数据的缓冲区，现在比较新的UART是16550，它可以在计算机需要处理数据前在其缓冲区内存储16字节数据，而通常的UART是8250。现在如果您购买一个内置的调制解调器，此调制解调器内部通常就会有16550 UART。
+I2C:能用于替代标准的并行总线，能连接的各种集成电路和功能模块。I2C是多主控总线，所以任何一个设备都能像主控器一样工作，并控制总线。 总线上每一个设备都有一个独一无二的地址，根据设备它们自己的能力，它们可以作为发射器或接收器工作。多路微控制器能在同一个I2C总线上共存。
+
+更详细的区别：
+第一个区别当然是名字：
+     SPI(Serial Peripheral Interface：串行外设接口);
+     I2C(INTER IC BUS：意为IC之间总线)
+     UART(Universal Asynchronous Receiver Transmitter：通用异步收发器)
+第二，区别在电气信号线上：
+     SPI总线由三条信号线组成：串行时钟(SCLK)、串行数据输出(SDO)、串行数据输入(SDI)。SPI总线可以实现 多个SPI设备互相连接。提供SPI串行时钟的SPI设备为SPI主机或主设备(Master)，其他设备为SPI从机或从设备(Slave)。主从设备间可以实现全双工通信，当有多个从设备时，还可以增加一条从设备选择线。
+     如果用通用IO口模拟SPI总线，必须要有一个输出口(SDO)，一个输入口(SDI)，另一个口则视实现的设备类型而定，如果要实现主从设备，则需输入输出口，若只实现主设备，则需输出口即可，若只实现从设备，则只需输入口即可。
+
+     I2C总线是双向、两线(SCL、SDA)、串行、多主控（multi-master）接口标准，具有总线仲裁机制，非常适合在器件之间进行近距离、非经常性的数据通信。在它的协议体系中，传输数据时都会带上目的设备的设备地址，因此可以实现设备组网。
+     如果用通用IO口模拟I2C总线，并实现双向传输，则需一个输入输出口(SDA)，另外还需一个输出口(SCL)。（注：I2C资料了解得比较少，这里的描述可能很不完备）
+
+     UART总线是异步串口，因此一般比前两种同步串口的结构要复杂很多，一般由波特率产生器(产生的波特率等于传输波特率的16倍)、UART接收器、UART发送器组成，硬件上由两根线，一根用于发送，一根用于接收。
+     显然，如果用通用IO口模拟UART总线，则需一个输入口，一个输出口。
+
+第三，从第二点明显可以看出，SPI和UART可以实现全双工，但I2C不行；
+
+第四，看看牛人们的意见吧！
+     wudanyu：I2C线更少，我觉得比UART、SPI更为强大，但是技术上也更加麻烦些，因为I2C需要有双向IO的支持，而且使用上拉电阻，我觉得抗干扰能力较弱，一般用于同一板卡上芯片之间的通信，较少用于远距离通信。SPI实现要简单一些，UART需要固定的波特率，就是说两位数据的间隔要相等，而SPI则无所谓，因为它是有时钟的协议。
+     quickmouse：I2C的速度比SPI慢一点，协议比SPI复杂一点，但是连线也比标准的SPI要少。
+SPI、I2C、UART三种串行总线协议的区别
+
+     SPI(Serial Peripheral Interface：串行外设接口)
+
+     I2C(INTER IC BUS)
+
+     UART(Universal Asynchronous Receiver Transmitter：通用异步收发器)
+
+ 
+
+SPI
+
+ 
+
+The SPI includes these distinctive features:
+
+   Master mode and slave mode
+
+   Bi-directional mode
+
+   Slave select output
+
+   Mode fault error flag with CPU interrupt capability
+
+   Double-buffered data register
+
+   Serial clock with programmable polarity and phase
+
+    Control of SPI operation during wait mode
+
+ 
+
+SPI 有两种模式，Normal Mode and Bidirectional Mode，包括以下几根线：
+
+ 
+
+ 
+
+SS      Slave Select
+
+SCK    Serial Clock
+
+MOSI Master Output, Slave Input
+
+MISO Master Input, Slave Output
+
+ 
+
+ 
+
+MOMI Master Output, Master Input
+
+SISO   Slave Input, Slave Output
+
+ 
+
+其中前四根线用于Normal Mode ，常用的也是4根线的Normal Mode 。
+
+ 
+
+MOSI
+
+This pin is used to transmit data out of the SPI module when it is configured as a Master and receive data
+
+when it is configured as Slave.
+
+MISO
+
+This pin is used to transmit data out of the SPI module when it is configured as a Slave and receive data
+
+when it is configured as Master.
+
+SS
+
+This pin is used to output the select signal from the SPI module to another peripheral with which a data
+
+transfer is to take place when its configured as a Masterand its used as an input to receive the slave select
+
+signal when the SPI is configured as Slave.
+
+SCK
+
+This pin is used to output the clock with respect to which the SPI transfers data or receive clock in case of
+
+Slave.
+
+ 
+
+SPI 是一种允许一个主设备启动一个与从设备的同步通讯的协议，从而完成数据的交换。也就是SPI是一种规定好的通讯方式。这种通信方式的优点是占用端口较少，一般4根就够基本通讯了。同时传输速度也很高。一般来说要求主设备要有SPI控制器（但可用模拟方式），就可以与基于SPI的芯片通讯了。
+
+    SPI 的通信原理很简单，它需要至少4根线，事实上3根也可以。也是所有基于SPI的设备共有的，它们是SDI（数据输入），SDO（数据输出），SCK（时 钟），CS（片选）。其中CS是控制芯片是否被选中的，也就是说只有片选信号为预先规定的使能信号时（高电位或低电位），对此芯片的操作才有效。这就允许 在同一总线上连接多个SPI设备成为可能。
+
+     接下来就负责通讯的3根线了。通讯是通过数据交换完成的，这里先要知道SPI是串行通讯协议，也就是说数据是一位一位的传输的。这就是SCK时钟线存在的原 因，由SCK提供时钟脉冲，SDI，SDO则基于此脉冲完成数据传输。数据输出通过SDO线，数据在时钟上沿或下沿时改变，在紧接着的下沿或上沿被读取。 完成一位数据传输，输入也使用同样原理。这样，在至少8次时钟信号的改变（上沿和下沿为一次），就可以完成8位数据的传输。
+
+     要注意的是，SCK信号线只由主设备控制，从设备不能控制信号线。同样，在一个基于SPI的设备中，至少有一个主控设备。
+
+     这样传输的特点：这样的传输方式有一个优点，与普通的串行通讯不同，普通的串行通讯一次连续传送至少8位数据，而SPI允许数据一位一位的传送，甚至允许暂停，因为SCK时钟线由主控设备控制，当没有时钟跳变时，从设备不采集或传送数据。也就是说，主设备通过对SCK时钟线的控制可以完成对通讯的控制。
+
+     SPI还是一个数据交换协议：因为SPI的数据输入和输出线独立，所以允许同时完成数据的输入和输出。
+
+     不同的SPI设备的实现方式不尽相同，主要是数据改变和采集的时间不同，在时钟信号上沿或下沿采集有不同定义，具体请参考相关器件的文档。
+
+ 
+
+I2C
+
+ 
+
+    只要求两条总线线路：一条串行数据线SDA 一条串行时钟线SCL
+
+    每个连接到总线的器件都可以通过唯一的地址和一直存在的简单的主机从机关系软件设定地址主机可以作为主机发送器或主机接收器
+
+    它是一个真正的多主机总线如果两个或更多主机同时初始化数据传输可以通过冲突检测和仲裁，防止数据被破坏
+
+    串行的8 位双向数据传输位速率在标准模式下可达100kbit/s 快速模式下可达400kbit/s 高速模式下可达3.4Mbit/s
+
+    片上的滤波器可以滤去总线数据线上的毛刺波保证数据完整
+
+    连接到相同总线的IC 数量只受到总线的最大电容400pF 限制
+
+ 
+
+UART
+
+ 
+
+UART总线是异步串口，因此一般比前两种同步串口的结构要复杂很多，一般由波特率产生器(产生的波特率等于传输波特率的16倍)、UART接收器、UART发送器组成，硬件上由两根线，一根用于发送，一根用于接收。
+
+     显然，如果用通用IO口模拟UART总线，则需一个输入口，一个输出口。
+
+UART常用于控制计算机与串行设备的芯片。有一点要注意的是，它提供了RS-232C数据终端设备接口，这样计算机就可以和调制解调器或其它使用RS-232C接口的串行设备通信了。
+
+明显可以看出，SPI和UART可以实现全双工，但I2C不行
