@@ -1,4 +1,4 @@
-git config --global --list//查看版本信息
+﻿git config --global --list//查看版本信息
 git config --global user.name"刘家辉"//设置用户名
 git config --global user.email"liujiahiu@qq.com"//设置用户邮箱
 
@@ -81,4 +81,5 @@ git reset --hard <commit id>
 
 git push github +master
 
-
+https://blog.csdn.net/xxxvvvop/article/details/83098669
+突破100M文件限制
