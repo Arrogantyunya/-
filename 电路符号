@@ -1,0 +1,17 @@
+Q		晶体三极管
+C		电容capacitance
+R		电阻resistance
+D		整流二极管diode
+ZD(VD)	稳压二极管
+U		IC(集成电路)
+L		电感
+T		变压器transformer
+VR		电位器(可调电阻)
+V		电源voltage
+FS		保险管
+J		跳线
+RTH		热敏电阻
+CY		Y电容：高电压陶瓷电容，安规
+CX		X电容：高压薄膜电容，安规
+
+	
